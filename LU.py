@@ -11,7 +11,7 @@ with open('metodo_js/json/nasa2146.json') as data_file:
 with open('metodo_js/json/nasa2146_b.json') as data_file:    
     b = json.load(data_file)
 
-def LU(A):
+def LU(A, b):
 	
 	n = len(A) # Give us total of lines
 
@@ -20,8 +20,8 @@ def LU(A):
 
 	# (1) Extract the b vector
 	b = [0 for i in range(n)]
-	for i in range(0,n):
-		b[i]=A[i][n]
+	for i in range(n):
+		b[i]=A[i][n - 1]
 
 	# (2) Fill L matrix and its diagonal with 1
 	L = [[0 for i in range(n)] for i in range(n)]
@@ -35,6 +35,9 @@ def LU(A):
 			U[i][j] = A[i][j]
 
 	n = len(U)
+
+	collected = gc.collect()
+	print "Garbage collector: collected %d objects." % (collected)
 
 	# (4) Find both U and L matrices
 	for i in range(0,n): # for i in [0,1,2,..,n]
@@ -51,6 +54,9 @@ def LU(A):
 			tmp=U[maxRow][k]
 			U[maxRow][k]=U[i][k]
 			U[i][k]=tmp
+
+		collected = gc.collect()
+		print "Garbage collector: collected %d objects." % (collected)
 
 		# (4.3) Subtract lines
 		for k in range(i+1,n):
@@ -113,7 +119,7 @@ for i in range(0,10):
     print "Rodada %d" % (i+1)
     
     start_time = time.time()
-    x = LU(A)
+    x = LU(A, b)
     end_time = time.time()
     elapsedTime = end_time - start_time
     timeAcc += elapsedTime
