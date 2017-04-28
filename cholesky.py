@@ -8,10 +8,8 @@ from pprint import pprint
 with open('metodo_js/json/nasa4704.json') as data_file:    
     A = json.load(data_file)
     
-with open('metodo_js/json/nasa4704.json') as data_file:    
+with open('metodo_js/json/nasa4704_b.json') as data_file:    
     b = json.load(data_file)
-    
-
 
 from math import sqrt
 import sys, gc
