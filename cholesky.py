@@ -83,6 +83,9 @@ def solve(A, b):
 
 	n = len(A)
 
+	EPSILON = 0.00001
+	FACTOR  = 1000000
+
 	A = None
 	collected = gc.collect()
 	print "Garbage collector: collected %d objects." % (collected)
@@ -93,7 +96,10 @@ def solve(A, b):
 		for k in range(0,i,1):
 			acc = acc - L[i][k]*y[k]
 
-		y[i] = (1/float(L[i][i]))*(acc)
+		if(L[i][i]<EPSILON):
+			y[i] = (FACTOR)*(acc)
+		else:
+			y[i] = (1/float(L[i][i]))*(acc)
 
 	b = None
 	L = None
@@ -105,7 +111,11 @@ def solve(A, b):
 		acc = y[i]
 		for j in range(i + 1, n):
 			acc = acc - Lt[i][j]*x[j]
-		x[i] = (1/float(Lt[i][i]))*(acc)
+
+		if(Lt[i][i]<EPSILON):
+			x[i] = (FACTOR)*(acc)
+		else:
+			x[i] = (1/float(Lt[i][i]))*(acc)
 
 	return x
 
