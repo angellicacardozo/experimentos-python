@@ -2,6 +2,7 @@ import json
 import time
 import math
 from pprint import pprint
+import sys, gc
 
 
 with open('metodo_js/json/nasa2146.json') as data_file:    
@@ -61,12 +62,21 @@ def LU(A):
 
 	n = len(L)
 
+	A = None
+	b = None
+	collected = gc.collect()
+	print "Garbage collector: collected %d objects." % (collected)
+
 	# (5) Perform substitutioan Ly=b
 	y = [0 for i in range(n)]
 	for i in range(0,n,1):
 		y[i] = b[i]/float(L[i][i])
 		for k in range(0,i,1):
 			y[i] -= y[k]*L[i][k]
+
+	L = None
+	collected = gc.collect()
+	print "Garbage collector: collected %d objects." % (collected)
 
 	n = len(U)
 
